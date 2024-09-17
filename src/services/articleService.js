@@ -29,7 +29,7 @@ exports.getArticles = async () => {
             .order('created_at', { ascending: false });
 
         if (error) throw new Error(error.message);
-        return data;
+        return { data };
     }
     catch (error) {
         return { error };
@@ -45,7 +45,7 @@ exports.getArticle = async (id) => {
             .single();
 
         if (error) throw new Error(error.message);
-        return data;
+        return { data };
     } catch (error) {
         return { error };
     }
@@ -67,7 +67,7 @@ exports.updateArticle = async (id, articleData) => {
             .eq('id', id);
 
         if (error) throw new Error(error.message);
-        return updatedArticle;
+        return {};
     } catch (error) {
         return { error };
     }
