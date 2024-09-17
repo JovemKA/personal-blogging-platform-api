@@ -1,22 +1,24 @@
 const { supabase } = require('../config/database');
 
 exports.createArticle = async (articleData) => {
-    const { data, error } = await supabase
-        .from('articles')
-        .insert([
-            {
-                title: articleData.title,
-                content: articleData.content,
-                excerpt: articleData.excerpt,
-                category: articleData.category,
-                status: articleData.status || 'draft',
-            }])
-        .select();
+    try {
+        const { error } = await supabase
+            .from('articles')
+            .insert([
+                {
+                    title: articleData.title,
+                    content: articleData.content,
+                    excerpt: articleData.excerpt,
+                    category: articleData.category,
+                    status: articleData.status || 'draft',
+                }])
+            .select();
 
-    if (error) throw new Error(error.message);
-    if (!data || data.length === 0) throw new Error('No data returned by creating a new article');
-
-    return data[0];
+        if (error) throw new Error(error.message);
+        return {};
+    } catch (error) {
+        return { error };
+    }
 };
 
 exports.getArticles = async () => {
@@ -30,7 +32,7 @@ exports.getArticles = async () => {
         return data;
     }
     catch (error) {
-        return error;
+        return { error };
     }
 };
 
@@ -45,7 +47,7 @@ exports.getArticle = async (id) => {
         if (error) throw new Error(error.message);
         return data;
     } catch (error) {
-        return error;
+        return { error };
     }
 }
 
@@ -67,7 +69,7 @@ exports.updateArticle = async (id, articleData) => {
         if (error) throw new Error(error.message);
         return updatedArticle;
     } catch (error) {
-        return error;
+        return { error };
     }
 }
 
@@ -81,6 +83,6 @@ exports.deleteArticle = async (id) => {
         if (error) throw new Error(error.message);
         return {};
     } catch (error) {
-        return error;
+        return { error };
     }
 };
