@@ -1,1 +1,0 @@
-# personal-blogging-platform-api
